@@ -1,0 +1,14 @@
+{
+    "about-page": {
+        "title": "About"
+    },
+    "blog": {
+        "title": "Blog"
+    },
+    "jobs": {
+        "title": "Jobs"
+    },
+    "valves": {
+        "title": "Valves"
+    }
+}
