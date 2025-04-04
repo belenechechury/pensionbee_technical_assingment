@@ -6,15 +6,18 @@ import { notFound } from 'next/navigation';
 import { generateMetadataHelper } from '@/common/utils/generateMetadataHelper';
 import { Metadata } from 'next';
 
-export async function generateMetadata(): Promise<Metadata> {
-    return generateMetadataHelper("/")
+export async function generateMetadata({ params }: { params: { route?: string } }): Promise<Metadata> {
+    const resolvedParams = await params 
+
+    return generateMetadataHelper(resolvedParams.route);
 }
 
-export default async function Page({ params }: any) {
-    console.log(params.route);
+export default async function Page({ params }: { params: {route: string} }) {
+    const resolvedParams = await params 
 
-    const routePath = Array.isArray(params.route) ? params.route.join('/') : 'about-page';
-    const mdFilePath = path.join(process.cwd(), 'content', `${routePath}/index.md`);
+    const routePath = resolvedParams.route;
+
+    const mdFilePath = path.join(process.cwd(), `src/content/${routePath}`, `index.md`);
 
     if (!fs.existsSync(mdFilePath)) {
         return notFound();
@@ -24,7 +27,7 @@ export default async function Page({ params }: any) {
     const processedContent = await remark().use(html).process(fileContents);
     const contentHtml = processedContent.toString();
 
-    const templatePath = path.join(process.cwd(), 'app/template.html');
+    const templatePath = path.join(process.cwd(), 'src/template.html');
     const templateHtml = fs.readFileSync(templatePath, 'utf8');
 
     const finalHtml = templateHtml.replace('{{content}}', contentHtml);

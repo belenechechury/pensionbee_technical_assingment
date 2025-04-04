@@ -3,19 +3,24 @@ import { Metadata } from "next";
 import { MetadataMap } from "@/common/types";
 
 export async function generateMetadataHelper(
-  path: string
+  path?: string
 ): Promise<Metadata> {
-  const meta = metadata as MetadataMap;
-  const pageTitle = `Acme | ${meta[path].title}`
+  let title
+  if (path) {
+    const pageMetadata = (metadata as MetadataMap)[path];
+    title = 'Acme' + (pageMetadata && pageMetadata.title ? ' | ' + pageMetadata.title : '')
+  } else {
+    title = 'Acme'
+  }
 
   return {
-    title: pageTitle,
+    title,
     openGraph: {
-      title: pageTitle,
+      title,
       type: "website",
     },
     twitter: {
-      title: pageTitle,
+      title,
       card: "summary_large_image"
     }
   };
