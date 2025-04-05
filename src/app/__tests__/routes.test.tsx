@@ -34,6 +34,10 @@ jest.mock('remark', () => {
     };
   });  
 
+  jest.mock('next/navigation', () => ({
+    notFound: jest.fn(),
+  }));
+
 describe('Page', () => {
   beforeAll(() => {
     jest.spyOn(fs, 'existsSync').mockReturnValue(true);
@@ -51,14 +55,15 @@ describe('Page', () => {
     });
   });
 
-  // it('should return 404 for non-existing route', async () => {
-  //   const params = { route: 'non-existing-route' };
-  //   jest.spyOn(fs, 'existsSync').mockReturnValue(false);
-  //
-  //   const notFoundMock = jest.spyOn(require('next/navigation'), 'notFound').mockImplementation(() => {});
-  //
-  //   await waitFor(() => render(<Page params={params} />));
-  //   expect(notFoundMock).toHaveBeenCalled();
-  //   expect(await screen.findByText('Page Not Found')).toBeInTheDocument();
-  // });
+  it('should return 404 for non-existing route', async () => {
+    const params = { route: 'non-existing-route' };
+    jest.spyOn(fs, 'existsSync').mockReturnValue(false);
+  
+    const notFoundMock = jest.spyOn(require('next/navigation'), 'notFound').mockImplementation(() => {});
+  
+    const PageComponent = await Page({ params });
+    render(PageComponent);      
+    
+    expect(notFoundMock).toHaveBeenCalled();
+  });
 });
