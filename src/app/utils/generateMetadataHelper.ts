@@ -1,6 +1,6 @@
 import metadata from "@/routesMetadata.json";
 import { Metadata } from "next";
-import { MetadataMap } from "@/common/types";
+import { MetadataMap } from "@/app/types";
 
 export async function generateMetadataHelper(
   path?: string
