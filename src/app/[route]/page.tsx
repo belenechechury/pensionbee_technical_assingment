@@ -7,13 +7,13 @@ import { notFound } from 'next/navigation';
 import { generateMetadataHelper } from '@/common/utils/generateMetadataHelper';
 import { Metadata } from 'next';
 
-export async function generateMetadata({ params }: { params: { route: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
     const resolvedParams = await params 
 
     return generateMetadataHelper(resolvedParams.route);
 }
 
-export default async function Page({ params }: { params: {route: string} }) {
+export default async function Page({ params }: any) {
     const resolvedParams = await params 
 
     const routePath = resolvedParams.route;
