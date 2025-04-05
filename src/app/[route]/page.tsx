@@ -1,3 +1,4 @@
+import React from 'react';
 import fs from 'fs';
 import path from 'path';
 import { remark } from 'remark';
@@ -6,7 +7,7 @@ import { notFound } from 'next/navigation';
 import { generateMetadataHelper } from '@/common/utils/generateMetadataHelper';
 import { Metadata } from 'next';
 
-export async function generateMetadata({ params }: { params: { route?: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { route: string } }): Promise<Metadata> {
     const resolvedParams = await params 
 
     return generateMetadataHelper(resolvedParams.route);
