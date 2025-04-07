@@ -1,4 +1,7 @@
 import React from 'react';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -8,9 +11,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Navbar/>
         <div>
             {children}
         </div>
+        <Footer />
       </body>
     </html>
   );

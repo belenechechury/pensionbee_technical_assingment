@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
-import { getRoutes } from '@/app/utils/routes';
+import React from 'react';
 
-const Brand = () => {
-    const routes = useMemo(() => getRoutes(), [])
-
+const Brand = (children: React.ReactNode) => {
     return (
-        <div className="logo"><p><span className='text-brandBlack'>Acme</span> <span className='text-brandYellow'>Co.</span></p></div>
+        <div
+          className="w-full rounded-lg bg-white p-4 shadow-lg"
+        >
+          {children}
+        </div>
     )
 }
 
