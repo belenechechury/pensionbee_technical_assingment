@@ -16,7 +16,7 @@ export default async function Page({ params }: any) {
   const resolvedParams = await params;
   const routePath = resolvedParams.route;
 
-  const mdFilePath = path.join(process.cwd(), `src/content/${routePath}`, `index.md`);
+  const mdFilePath = path.join(process.cwd(), `src/content/${routePath.join('/')}`, `index.md`);
 
   if (!fs.existsSync(mdFilePath)) {
     return notFound();

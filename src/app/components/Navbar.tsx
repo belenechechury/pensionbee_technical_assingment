@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react';
 import { getRoutes } from '@/app/utils/routes';
+import Brand from '@/app/components/Brand';
 
 const Navbar = () => {
     const routes = useMemo(() => getRoutes(), [])
 
     return (
-        <nav className="container mx-auto flex justify-between items-center">
-            <div className="logo"><p><span className='text-brandBlack'>Acme</span> <span className='text-brandYellow'>Co.</span></p></div>
-            <ul className="flex items-center">
+        <nav className="container w-full p-6 flex justify-between items-center">
+            <Brand />
+            <ul className="flex gap-[2vw] items-center">
                 {routes.map((route) => (
-                    <li key={route} className="mr-6">
+                    <li key={route}>
                         <a href={`/${route}`} className="uppercase text-xs text-brandBlack hover:text-brandYellow">
                             {route.replaceAll('-', ' ')}
                         </a>

@@ -1,10 +1,14 @@
 import React from 'react';
+import Brand from '@/app/components/Brand';
 
 const Footer = () => {
     return (
-        <footer className="p-4 bg-white rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800">
-            <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {new Date().getFullYear()} . All Rights Reserved.
-            </span>
+        <footer className="bg-brandBlack p-6 bg-white rounded-t-lg shadow">
+            <div className='w-full flex justify-between'>
+                <Brand />
+                <p className="text-right text-xs text-gray-500">© Acme Co. {new Date().getFullYear()} <br/> All Rights Reserved
+                </p>
+            </div>
         </footer>
     )
 }
