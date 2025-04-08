@@ -1,6 +1,6 @@
+import React from 'react';
 import Page from '@/app/[[...route]]/page';
 import { render, screen } from '@testing-library/react';
-import path from 'path';
 
 // Mock the fs module first with explicit types for mock functions
 jest.mock('fs', () => {
@@ -15,14 +15,10 @@ jest.mock('fs', () => {
 
 // Import fs after mocking
 import fs from 'fs';
+import { getRoutes } from '../utils/routes';
 
 // Define existingRoutes after mocking fs
-const existingRoutes = fs.readdirSync(
-  path.resolve(__dirname, '../../content'),
-  { withFileTypes: true }
-)
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => dirent.name);
+const existingRoutes = getRoutes().map((r) => r.split('/'))
 
 // Mock remark processing
 jest.mock('remark', () => {
@@ -51,7 +47,7 @@ describe('Page', () => {
     jest.spyOn(fs, 'existsSync').mockReturnValue(true);
   });
 
-  existingRoutes.forEach((route: string) => {
+  existingRoutes.forEach((route: string[]) => {
     it(`should return 200 for existing route ${route}`, async () => {
       const params = { route };
 
@@ -65,7 +61,7 @@ describe('Page', () => {
   });
 
   it('should return 404 for non-existing route', async () => {
-    const params = { route: 'non-existing-route' };
+    const params = { route: ['non-existing-route'] };
     jest.spyOn(fs, 'existsSync').mockReturnValue(false);
 
     // Mock the notFound function
