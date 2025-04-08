@@ -2,6 +2,7 @@ import React from 'react';
 import fs from 'fs';
 import path from 'path';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { generateMetadataHelper } from '@/app/utils/generateMetadataHelper';
@@ -22,17 +23,36 @@ export default async function Page({ params }: any) {
     return notFound();
   }
 
-  const fileContents = fs.readFileSync(mdFilePath, 'utf8');
+  let fileContents = fs.readFileSync(mdFilePath, 'utf8');
+
+  fileContents = fileContents.replace(
+    /(?<!\])(?<!\))\b([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,})\b/g,
+    '[$1](mailto:$1)'
+  );
 
   const renderers = {
     h1: (props: any) => <Heading level={1} {...props} />,
     h2: (props: any) => <Heading level={2} {...props} />,
     h3: (props: any) => <Heading level={3} {...props} />,
+    a: ({ href, children }: any) => {
+      const isEmail = href?.startsWith('mailto:');
+      return (
+        <a
+          href={href}
+          className={`text-[#f9c000] underline hover:text-[#ad8500] ${isEmail ? 'font-medium' : ''}`}
+        >
+          {children}
+        </a>
+      );
+    },
   };
 
   return (
-    <div>
-      <ReactMarkdown components={renderers}>
+    <div className="prose max-w-none">
+      <ReactMarkdown
+        components={renderers}
+        remarkPlugins={[remarkGfm]}
+      >
         {fileContents}
       </ReactMarkdown>
     </div>
