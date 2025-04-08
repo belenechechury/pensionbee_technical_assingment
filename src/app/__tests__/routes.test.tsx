@@ -1,4 +1,4 @@
-import Page from '@/app/[route]/page';
+import Page from '@/app/[[...route]]/page';
 import { render, screen } from '@testing-library/react';
 import path from 'path';
 
